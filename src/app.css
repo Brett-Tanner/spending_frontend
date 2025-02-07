@@ -1,4 +1,7 @@
 html {
+	--rounded: 0.25rem;
+	--circle: calc(infinity * 1px);
+
 	color-scheme: light dark;
 	color: var(--color-primary);
 	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;

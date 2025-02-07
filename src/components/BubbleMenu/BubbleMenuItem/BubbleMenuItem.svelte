@@ -29,7 +29,7 @@
 		cursor: pointer;
 
 		position: absolute;
-		right: 5rem;
+		right: 1.5rem;
 		bottom: var(--bottom);
 	}
 
@@ -39,7 +39,7 @@
 		justify-content: center;
 
 		aspect-ratio: 1 / 1;
-		border-radius: calc(infinity * 1px);
+		border-radius: var(--circle);
 		background-color: var(--color-primary);
 	}
 </style>
