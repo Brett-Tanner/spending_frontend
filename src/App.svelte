@@ -1,39 +1,18 @@
 <script lang="ts">
 	import BubbleMenu from "./components/BubbleMenu/BubbleMenu.svelte";
+	import MonthlyBalance from "./components/MonthlyBalance/MonthlyBalance.svelte";
 	import TransactionRow from "./components/TransactionRow/TransactionRow.svelte";
-	import type { Transaction } from "./types";
+	import { mockTransactions } from "./test/mocks";
 
-	const mockTransactions: Transaction[] = [
-		{
-			category: "Entertainment",
-			date: new Date(),
-			id: 1,
-			description: "Elden Ring",
-			user: "Brett",
-			amount: 9800,
-		},
-		{
-			category: "Eating out",
-			date: new Date(),
-			id: 2,
-			description: "Cicada",
-			user: "Vika",
-			amount: 23000,
-		},
-		{
-			category: "Super long category oh my god why this is so big",
-			date: new Date(),
-			id: 3,
-			description: "Super long description oh my god why this is",
-			user: "Vika",
-			amount: 250000,
-		},
-	];
+	let month = $state(new Date());
 </script>
 
 <main>
-	<h1>Test Text</h1>
-	<a href="/">Test Link</a>
+	<h1>
+		{month.toLocaleString("en-AU", { month: "long", year: "numeric" })}
+	</h1>
+	<MonthlyBalance transactions={mockTransactions} />
+	<input type="search" placeholder="Search" />
 	<section class="transactions">
 		{#each mockTransactions as transaction (transaction.id)}
 			<TransactionRow {transaction} />
@@ -48,6 +27,31 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		gap: 1.5rem;
+
+		padding: 0.5rem;
+	}
+
+	h1 {
+		font-size: 1.4rem;
+		font-weight: 600;
+	}
+
+	input {
+		background-color: transparent;
+		border: var(--border);
+		border-radius: var(--rounded);
+		color: var(--color-primary);
+		font-size: 1.2rem;
+		outline: none;
+		padding: 0.2rem 0.4rem;
+		width: 100%;
+
+		&:focus,
+		&:focus-visible,
+		&:active {
+			outline: 2px solid var(--color-secondary);
+		}
 	}
 
 	section.transactions {

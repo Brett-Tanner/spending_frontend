@@ -24,12 +24,12 @@
 <style>
 	.summary-row {
 		display: grid;
-		grid-template-columns: 1fr 2fr 9fr 5fr 2fr;
+		grid-template-columns: 1fr 3fr 8fr 5fr 2fr;
 		gap: 0.25rem;
 		align-items: center;
 
 		border-bottom: 1px solid var(--color-secondary);
-		width: 95%;
+		width: 100%;
 
 		@media (min-width: 768px) {
 			width: 60%;

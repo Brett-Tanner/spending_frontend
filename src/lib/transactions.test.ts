@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { mockTransactions } from "../test/mocks";
-import { balanceOwed, sumFor } from "./transactions";
+import { balanceOwed, halfDifference, sumFor } from "./transactions";
 import type { Transaction } from "../types";
 
 describe("balanceOwed", () => {
@@ -19,9 +19,11 @@ describe("balanceOwed", () => {
 		const { user, amount } = balanceOwed(vikaSpendsMore);
 
 		expect(user).toBe("Brett");
-		expect(amount).toBe(
-			sumFor("Vika", vikaSpendsMore) - sumFor("Brett", vikaSpendsMore),
+		const expectedAmount = halfDifference(
+			sumFor("Vika", vikaSpendsMore),
+			sumFor("Brett", vikaSpendsMore),
 		);
+		expect(amount).toBe(expectedAmount);
 	});
 
 	it("returns 'Vika' and the amount she owes if I spent more", () => {
@@ -39,9 +41,11 @@ describe("balanceOwed", () => {
 		const { user, amount } = balanceOwed(brettSpendsMore);
 
 		expect(user).toBe("Vika");
-		expect(amount).toBe(
-			sumFor("Brett", brettSpendsMore) - sumFor("Vika", brettSpendsMore),
+		const expectedAmount = halfDifference(
+			sumFor("Vika", brettSpendsMore),
+			sumFor("Brett", brettSpendsMore),
 		);
+		expect(amount).toBe(expectedAmount);
 	});
 
 	it("returns 'Steven' and 0 if we spent the same amount", () => {
@@ -53,7 +57,7 @@ describe("balanceOwed", () => {
 			id: 100,
 			description: "Test",
 			user: cheapUser,
-			amount: balancingAmount,
+			amount: balancingAmount * 2,
 			status: "inactive",
 		};
 		const balancedTransactions = [...mockTransactions, balancingTransaction];
