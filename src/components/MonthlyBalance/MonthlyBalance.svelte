@@ -56,7 +56,7 @@
 	}
 
 	.brett-name {
-		border-bottom: 1px solid var(--color-secondary);
+		border-bottom: var(--border);
 		grid-area: brettName;
 	}
 
@@ -65,7 +65,7 @@
 	}
 
 	.total {
-		border-bottom: 1px solid var(--color-secondary);
+		border-bottom: var(--border);
 		grid-area: total;
 	}
 
@@ -74,7 +74,7 @@
 	}
 
 	.vika-name {
-		border-bottom: 1px solid var(--color-secondary);
+		border-bottom: var(--border);
 		grid-area: vikaName;
 	}
 

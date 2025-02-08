@@ -28,7 +28,8 @@
 		gap: 0.25rem;
 		align-items: center;
 
-		border-bottom: 1px solid var(--color-secondary);
+		border-bottom: var(--border);
+		padding-block: 0.5rem;
 		width: 100%;
 
 		@media (min-width: 768px) {
@@ -36,7 +37,7 @@
 		}
 
 		&:first-child {
-			border-top: 1px solid var(--color-secondary);
+			border-top: var(--border);
 		}
 
 		.date {
@@ -57,7 +58,7 @@
 		button {
 			aspect-ratio: 1 / 1;
 			background-color: var(--color-bg);
-			border: 1px solid var(--color-secondary);
+			border: var(--border);
 			border-radius: var(--rounded);
 			cursor: pointer;
 			place-self: center;

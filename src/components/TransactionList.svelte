@@ -2,29 +2,26 @@
 	import { createQuery } from "@tanstack/svelte-query";
 	import MonthlyBalance from "./MonthlyBalance/MonthlyBalance.svelte";
 	import TransactionRow from "./TransactionRow/TransactionRow.svelte";
-	import { mockTransactions } from "../test/mocks";
+	import { transactionsForMonth } from "../api/transactionsForMonth";
 
-	let month = $state(new Date());
+	let date = $state(new Date());
 	const transactionQuery = createQuery({
-		queryKey: ["transactions", month],
-		queryFn: async () => {
-			await new Promise((resolve) => setTimeout(resolve, 500));
-			return mockTransactions;
-		},
+		queryKey: ["transactions", date],
+		queryFn: () => transactionsForMonth(date),
 	});
 </script>
 
 <main>
-	<h1>
-		{month.toLocaleString("en-AU", { month: "long", year: "numeric" })}
-	</h1>
-	<MonthlyBalance transactions={mockTransactions} />
-	<input type="search" placeholder="Search" />
 	{#if $transactionQuery.isLoading}
-		<p>Loading transactions...</p>
+		<p class="message info">Loading transactions...</p>
 	{:else if $transactionQuery.isError}
-		<p>Error: {$transactionQuery.error.message}</p>
+		<p class="message error">Error: {$transactionQuery.error.message}</p>
 	{:else if $transactionQuery.data}
+		<h1>
+			{date.toLocaleString("en-AU", { month: "long", year: "numeric" })}
+		</h1>
+		<MonthlyBalance transactions={$transactionQuery.data} />
+		<input type="search" placeholder="Search" />
 		<section class="transactions">
 			{#each $transactionQuery.data as transaction (transaction.id)}
 				<TransactionRow {transaction} />
