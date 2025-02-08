@@ -57,19 +57,11 @@
 
 		button {
 			aspect-ratio: 1 / 1;
-			background-color: var(--color-bg);
 			border: var(--border);
 			border-radius: var(--rounded);
 			cursor: pointer;
 			place-self: center;
-			width: 80%;
-
-			&:hover,
-			&:active {
-				background-color: var(--color-primary);
-				transform: scale(1.2);
-				transition: all 0.2s ease-in-out;
-			}
+			width: 75%;
 		}
 	}
 </style>

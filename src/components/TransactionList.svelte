@@ -3,11 +3,20 @@
 	import MonthlyBalance from "./MonthlyBalance/MonthlyBalance.svelte";
 	import TransactionRow from "./TransactionRow/TransactionRow.svelte";
 	import { transactionsForMonth } from "../api/transactionsForMonth";
+	import QuickInput from "./QuickInput/QuickInput.svelte";
+	import { mockCategories } from "../test/mocks";
+	import type { Transaction } from "../types";
 
 	let date = $state(new Date());
+	let transactions = $state<Transaction[]>([]);
 	const transactionQuery = createQuery({
 		queryKey: ["transactions", date],
 		queryFn: () => transactionsForMonth(date),
+	});
+	$effect(() => {
+		if ($transactionQuery.data) {
+			transactions = $transactionQuery.data;
+		}
 	});
 </script>
 
@@ -16,14 +25,19 @@
 		<p class="message info">Loading transactions...</p>
 	{:else if $transactionQuery.isError}
 		<p class="message error">Error: {$transactionQuery.error.message}</p>
-	{:else if $transactionQuery.data}
+	{:else if transactions}
 		<h1>
 			{date.toLocaleString("en-AU", { month: "long", year: "numeric" })}
 		</h1>
-		<MonthlyBalance transactions={$transactionQuery.data} />
+		<MonthlyBalance {transactions} />
 		<input type="search" placeholder="Search" />
 		<section class="transactions">
-			{#each $transactionQuery.data as transaction (transaction.id)}
+			<QuickInput
+				categories={mockCategories}
+				bind:transactions
+				user="Brett"
+			/>
+			{#each transactions as transaction (transaction.id)}
 				<TransactionRow {transaction} />
 			{/each}
 		</section>
@@ -46,20 +60,7 @@
 	}
 
 	input {
-		background-color: transparent;
-		border: var(--border);
-		border-radius: var(--rounded);
-		color: var(--color-primary);
-		font-size: 1.2rem;
-		outline: none;
-		padding: 0.2rem 0.4rem;
 		width: 100%;
-
-		&:focus,
-		&:focus-visible,
-		&:active {
-			outline: 2px solid var(--color-secondary);
-		}
 	}
 
 	section.transactions {

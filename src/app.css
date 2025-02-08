@@ -49,12 +49,62 @@ body {
 	min-height: 100vh;
 }
 
+button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	background-color: transparent;
+	border-radius: var(--rounded);
+	border: var(--border);
+	color: var(--color-primary);
+	cursor: pointer;
+	outline: none;
+	padding: 0.2rem 0.4rem;
+
+	&:hover,
+	&:active {
+		background-color: var(--color-primary);
+		transform: scale(1.2);
+		transition: all 0.2s ease-in-out;
+	}
+}
+
 h1,
 h2,
 h3,
 h4,
 p {
 	margin: 0;
+}
+
+input,
+select {
+	background-color: transparent;
+	border: var(--border);
+	border-radius: var(--rounded);
+	color: var(--color-primary);
+	font-size: 1.2rem;
+	outline: none;
+	padding: 0.2rem 0.4rem;
+
+	&:focus,
+	&:focus-visible,
+	&:active {
+		outline: 2px solid var(--color-secondary);
+	}
+}
+
+input[type="number"] {
+	appearance: textfield;
+	-moz-appearance: textfield;
+
+	&::-webkit-outer-spin-button,
+	&::-webkit-inner-spin-button {
+		appearance: none;
+		-webkit-appearance: none;
+		margin: 0;
+	}
 }
 
 .message {

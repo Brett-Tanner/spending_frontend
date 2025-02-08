@@ -23,14 +23,10 @@
 		align-items: center;
 		gap: 0.5rem;
 
-		background-color: transparent;
 		border: none;
-		color: var(--color-primary);
-		cursor: pointer;
-
+		bottom: var(--bottom);
 		position: absolute;
 		right: 1.5rem;
-		bottom: var(--bottom);
 	}
 
 	.svg-container {

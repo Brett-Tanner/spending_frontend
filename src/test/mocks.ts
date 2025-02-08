@@ -38,3 +38,11 @@ export const mockTransactions: Transaction[] = [
 		status: "inactive",
 	},
 ];
+
+export const mockCategories = [
+	"Food",
+	"Eating Out",
+	"Travel",
+	"Rent",
+	"Household Costs",
+];
