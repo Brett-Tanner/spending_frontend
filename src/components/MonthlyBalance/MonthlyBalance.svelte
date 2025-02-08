@@ -7,9 +7,9 @@
 		transactions: Transaction[];
 	}
 
-	const { transactions }: MonthlyBalanceProps = $props();
+	let { transactions }: MonthlyBalanceProps = $props();
 
-	const { user, amount } = balanceOwed(transactions);
+	const { user, amount } = $derived(balanceOwed(transactions));
 </script>
 
 <header>
