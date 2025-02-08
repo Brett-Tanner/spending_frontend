@@ -24,9 +24,9 @@
 		gap: 0.5rem;
 
 		border: none;
-		bottom: var(--bottom);
+		bottom: calc(2em + (2em * var(--order)));
 		position: absolute;
-		right: 1.5rem;
+		right: 1.3em;
 	}
 
 	.svg-container {
@@ -37,5 +37,6 @@
 		aspect-ratio: 1 / 1;
 		border-radius: var(--circle);
 		background-color: var(--color-primary);
+		padding: 0.25em;
 	}
 </style>
