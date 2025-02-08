@@ -1,4 +1,9 @@
-type TransactionStatus = "active" | "loading" | "error" | "success";
+export type TransactionStatus =
+	| "inactive"
+	| "active"
+	| "loading"
+	| "error"
+	| "success";
 
 export interface Transaction {
 	amount: number;
