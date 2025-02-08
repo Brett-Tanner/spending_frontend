@@ -50,7 +50,7 @@
 		bind:value={newTransaction.description}
 		class:active={activeInput === "description"}
 		name="description"
-		onclick={() => {
+		onfocus={() => {
 			editing = true;
 			activeInput = "description";
 		}}
@@ -64,7 +64,7 @@
 			class:active={activeInput === "amount"}
 			inputmode="numeric"
 			placeholder="Amount"
-			onclick={() => (activeInput = "amount")}
+			onfocus={() => (activeInput = "amount")}
 			required
 			transition:fade
 			type="number"
@@ -72,7 +72,7 @@
 		<select
 			bind:value={newTransaction.category}
 			class:active={activeInput === "category"}
-			onclick={() => (activeInput = "category")}
+			onfocus={() => (activeInput = "category")}
 			transition:fade
 			required
 		>
