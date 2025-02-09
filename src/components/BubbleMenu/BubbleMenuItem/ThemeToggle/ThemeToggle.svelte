@@ -39,5 +39,5 @@
 	text={activeTheme === "dark" ? "Light Mode" : "Dark Mode"}
 	Icon={activeTheme === "dark" ? LightIcon : DarkIcon}
 	onclick={toggleTheme}
-	--order="2"
+	--order="1"
 />

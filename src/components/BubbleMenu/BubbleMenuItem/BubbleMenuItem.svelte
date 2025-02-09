@@ -24,7 +24,7 @@
 		gap: 0.5rem;
 
 		border: none;
-		bottom: calc(2em + (2em * var(--order)));
+		bottom: calc(2.5em + (3.5em * var(--order)));
 		position: absolute;
 		right: 1.3em;
 	}
@@ -35,8 +35,9 @@
 		justify-content: center;
 
 		aspect-ratio: 1 / 1;
+		border: 1px solid var(--color-accent);
 		border-radius: var(--circle);
-		background-color: var(--color-primary);
 		padding: 0.25em;
+		width: 2em;
 	}
 </style>

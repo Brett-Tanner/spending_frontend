@@ -20,6 +20,10 @@ html {
 		--color-secondary: #90adc6;
 		--color-bg: #e9eaec;
 		--color-accent: #fad02c;
+
+		.svg-container {
+			background-color: var(--color-secondary);
+		}
 	}
 
 	&[data-theme="dark"] {
@@ -27,6 +31,12 @@ html {
 		--color-secondary: #b98473;
 		--color-bg: #49281c;
 		--color-accent: #ff3e00;
+
+		.svg-container {
+			background-color: color-mix(in srgb,
+					var(--color-secondary),
+					transparent 50%);
+		}
 	}
 }
 
