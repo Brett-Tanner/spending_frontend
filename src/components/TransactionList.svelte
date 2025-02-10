@@ -6,6 +6,8 @@
 	import QuickInput from "./QuickInput/QuickInput.svelte";
 	import { mockCategories } from "../test/mocks";
 	import type { Transaction } from "../types";
+	import Loading from "./Loading.svelte";
+	import BubbleMenu from "./BubbleMenu/BubbleMenu.svelte";
 
 	let date = $state(new Date());
 	let transactions = $state<Transaction[]>([]);
@@ -14,15 +16,13 @@
 		queryFn: () => transactionsForMonth(date),
 	});
 	$effect(() => {
-		if ($transactionQuery.data) {
-			transactions = $transactionQuery.data;
-		}
+		if ($transactionQuery.data) transactions = $transactionQuery.data;
 	});
 </script>
 
 <main>
 	{#if $transactionQuery.isLoading}
-		<p class="message info">Loading transactions...</p>
+		<Loading />
 	{:else if $transactionQuery.isError}
 		<p class="message error">Error: {$transactionQuery.error.message}</p>
 	{:else if transactions}
@@ -41,6 +41,7 @@
 				<TransactionRow {transaction} />
 			{/each}
 		</section>
+		<BubbleMenu />
 	{/if}
 </main>
 
