@@ -1,16 +1,23 @@
 <script lang="ts">
 	import type { Snippet } from "svelte";
+	import { fly } from "svelte/transition";
 
 	interface BubbleMenuItemProps {
 		text: string;
 		Icon: Snippet;
+		order: number;
 		onclick: () => void;
 	}
 
-	const { text, Icon, onclick }: BubbleMenuItemProps = $props();
+	const { text, Icon, onclick, order }: BubbleMenuItemProps = $props();
 </script>
 
-<button type="button" {onclick}>
+<button
+	type="button"
+	{onclick}
+	transition:fly={{ y: 50, duration: 100 * order }}
+	style="--order: {order}"
+>
 	{text}
 	<div class="svg-container">
 		{@render Icon()}

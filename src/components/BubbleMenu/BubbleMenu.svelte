@@ -1,13 +1,19 @@
 <script lang="ts">
 	import Womby from "../icons/Womby.svelte";
+	import AddTransaction from "./BubbleMenuItem/AddTransaction/AddTransaction.svelte";
 	import ThemeToggle from "./BubbleMenuItem/ThemeToggle/ThemeToggle.svelte";
+
+	let open = $state(false);
 </script>
 
-<button type="button">
+{#if open}
+	<AddTransaction />
+	<ThemeToggle />
+{/if}
+
+<button type="button" onclick={() => (open = !open)}>
 	<Womby --fill="var(--color-accent)" />
 </button>
-
-<ThemeToggle />
 
 <style>
 	button {
