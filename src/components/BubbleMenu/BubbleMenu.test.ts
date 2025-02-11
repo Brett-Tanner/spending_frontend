@@ -1,22 +1,26 @@
 import { render, screen } from "@testing-library/svelte";
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it, vi } from "vitest";
 import BubbleMenu from "./BubbleMenu.svelte";
+import AddTransaction from "./BubbleMenuItem/AddTransaction/AddTransaction.svelte";
 import userEvent from "@testing-library/user-event";
 
 describe("BubbleMenu", () => {
+	beforeAll(() => {
+		vi.mock("svelte/transition", () => Promise.resolve({ fly: vi.fn() }));
+	});
+
 	it("is closed by default", () => {
-		render(BubbleMenu);
+		render(BubbleMenu, { children: AddTransaction });
 
 		expect(screen.getAllByRole("button").length).toBe(1);
 	});
 
 	it("reveals the menu on click", async () => {
 		const user = userEvent.setup();
-		render(BubbleMenu);
+		render(BubbleMenu, { children: AddTransaction });
 
 		await user.click(screen.getByRole("button"));
 
 		expect(screen.getByRole("button", { name: "Add Transaction" }));
-		expect(screen.getByRole("button", { name: "Light Mode" }));
 	});
 });
