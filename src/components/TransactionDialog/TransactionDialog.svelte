@@ -37,7 +37,7 @@
 	}
 </script>
 
-<dialog id="transaction-dialog">
+<dialog id="transaction-dialog" data-testid="transaction-dialog">
 	<form data-testid="transaction-form" {onsubmit}>
 		<label for="description">
 			<p>Description</p>

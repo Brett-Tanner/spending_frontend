@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/svelte";
+import { render, screen } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 import type { Transaction } from "../../types";
@@ -13,41 +13,98 @@ async function renderComponent(transaction?: Transaction) {
 	render(TransactionDialog, {
 		categories: mockCategories,
 		user: testUser,
+		transactions: [],
 		transaction,
 	});
 
 	return { user };
 }
 
-function descriptionInput(form: HTMLFormElement) {
-	return within(form).getByLabelText("Description");
+function dialog() {
+	return screen.queryByTestId("transaction-dialog") as HTMLDialogElement;
 }
 
-function amountInput(form: HTMLFormElement) {
-	return within(form).getByLabelText("Amount");
+function openDialog() {
+	dialog().showModal();
 }
 
-function categoryInput(form: HTMLFormElement) {
-	return within(form).getByLabelText("Category");
+function descriptionInput() {
+	return screen.getByLabelText("Description");
 }
 
-function dateInput(form: HTMLFormElement) {
-	return within(form).getByLabelText("Date");
+function amountInput() {
+	return screen.getByLabelText("Amount");
 }
 
-function userInput(form: HTMLFormElement) {
-	return within(form).getByLabelText("User");
+function categoryInput() {
+	return screen.getByLabelText("Category");
+}
+
+function dateInput() {
+	return screen.getByLabelText("Date");
+}
+
+function userInput() {
+	return screen.getByLabelText("User");
 }
 
 describe("TransactionDialog", () => {
-	it("should show a form in the dialog", async () => {
+	it("is hidden by default", async () => {
 		await renderComponent();
 
-		const form = screen.getByTestId("transaction-form") as HTMLFormElement;
-		expect(descriptionInput(form)).toBeInTheDocument();
-		expect(amountInput(form)).toBeInTheDocument();
-		expect(categoryInput(form)).toBeInTheDocument();
-		expect(dateInput(form)).toBeInTheDocument();
-		expect(userInput(form)).toBeInTheDocument();
+		expect(dialog()).not.toBeVisible();
+	});
+
+	it("should show a form in the dialog", async () => {
+		await renderComponent();
+		openDialog();
+
+		expect(descriptionInput()).toBeVisible();
+		expect(amountInput()).toBeVisible();
+		expect(categoryInput()).toBeVisible();
+		expect(dateInput()).toBeVisible();
+		expect(userInput()).toBeVisible();
+	});
+
+	it("should close when cancel clicked", async () => {
+		const { user } = await renderComponent();
+
+		openDialog();
+		expect(dialog()).toBeVisible();
+
+		await user.click(screen.getByRole("button", { name: "Cancel" }));
+		expect(dialog()).not.toBeVisible();
+	});
+
+	it("should close when form submitted", async () => {
+		const { user } = await renderComponent();
+		openDialog();
+
+		await user.type(descriptionInput(), "Test Description");
+		await user.type(amountInput(), "100");
+		await user.selectOptions(categoryInput(), mockCategories[0]);
+
+		await user.click(screen.getByRole("button", { name: "Submit" }));
+		expect(dialog()).not.toBeVisible();
+	});
+
+	it("should autofill attributes of transaction if passed one", async () => {
+		const testTransaction: Transaction = {
+			id: 0,
+			amount: 100,
+			category: mockCategories[0],
+			date: new Date(),
+			description: "Test Description",
+			user: testUser,
+			status: "loading",
+		};
+
+		renderComponent(testTransaction);
+		openDialog();
+
+		expect(descriptionInput()).toHaveValue(testTransaction.description);
+		expect(amountInput()).toHaveValue(testTransaction.amount);
+		expect(categoryInput()).toHaveValue(testTransaction.category);
+		expect(userInput()).toHaveValue(testTransaction.user);
 	});
 });
