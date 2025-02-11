@@ -3,13 +3,6 @@
 	import Yen from "./icons/Yen.svelte";
 </script>
 
-{#snippet YenIcon()}
+<BubbleMenuItem text="Add Transaction" onclick={() => {}} order={2}>
 	<Yen --fill="var(--color-accent)" />
-{/snippet}
-
-<BubbleMenuItem
-	text="Add Transaction"
-	onclick={() => {}}
-	Icon={YenIcon}
-	order={2}
-/>
+</BubbleMenuItem>

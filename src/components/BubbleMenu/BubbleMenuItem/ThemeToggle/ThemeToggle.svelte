@@ -27,17 +27,14 @@
 	}
 </script>
 
-{#snippet DarkIcon()}
-	<Dark --fill="var(--color-accent)" />
-{/snippet}
-
-{#snippet LightIcon()}
-	<Light --fill="var(--color-accent)" />
-{/snippet}
-
 <BubbleMenuItem
 	text={activeTheme === "dark" ? "Light Mode" : "Dark Mode"}
-	Icon={activeTheme === "dark" ? LightIcon : DarkIcon}
 	onclick={toggleTheme}
 	order={1}
-/>
+>
+	{#if activeTheme === "dark"}
+		<Light --fill="var(--color-accent)" />
+	{:else if activeTheme === "light"}
+		<Dark --fill="var(--color-accent)" />
+	{/if}
+</BubbleMenuItem>

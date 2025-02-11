@@ -4,12 +4,12 @@
 
 	interface BubbleMenuItemProps {
 		text: string;
-		Icon: Snippet;
+		children: Snippet;
 		order: number;
 		onclick: () => void;
 	}
 
-	const { text, Icon, onclick, order }: BubbleMenuItemProps = $props();
+	const { text, children, onclick, order }: BubbleMenuItemProps = $props();
 </script>
 
 <button
@@ -20,7 +20,7 @@
 >
 	{text}
 	<div class="svg-container">
-		{@render Icon()}
+		{@render children()}
 	</div>
 </button>
 

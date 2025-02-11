@@ -1,14 +1,16 @@
 <script lang="ts">
+	import type { Snippet } from "svelte";
 	import Womby from "../icons/Womby.svelte";
-	import AddTransaction from "./BubbleMenuItem/AddTransaction/AddTransaction.svelte";
-	import ThemeToggle from "./BubbleMenuItem/ThemeToggle/ThemeToggle.svelte";
 
+	interface BubbleMenuProps {
+		children: Snippet;
+	}
+	const { children }: BubbleMenuProps = $props();
 	let open = $state(false);
 </script>
 
 {#if open}
-	<AddTransaction />
-	<ThemeToggle />
+	{@render children()}
 {/if}
 
 <button type="button" onclick={() => (open = !open)}>

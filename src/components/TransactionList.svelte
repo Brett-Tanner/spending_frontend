@@ -8,6 +8,8 @@
 	import type { Transaction } from "../types";
 	import Loading from "./Loading.svelte";
 	import BubbleMenu from "./BubbleMenu/BubbleMenu.svelte";
+	import AddTransaction from "./BubbleMenu/BubbleMenuItem/AddTransaction/AddTransaction.svelte";
+	import ThemeToggle from "./BubbleMenu/BubbleMenuItem/ThemeToggle/ThemeToggle.svelte";
 
 	let date = $state(new Date());
 	let transactions = $state<Transaction[]>([]);
@@ -41,7 +43,11 @@
 				<TransactionRow {transaction} />
 			{/each}
 		</section>
-		<BubbleMenu />
+
+		<BubbleMenu>
+			<AddTransaction />
+			<ThemeToggle />
+		</BubbleMenu>
 	{/if}
 </main>
 
