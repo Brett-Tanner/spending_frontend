@@ -7,7 +7,7 @@ import { svelteTesting } from "@testing-library/svelte/vite";
 export default defineConfig({
 	plugins: [svelte(), svelteTesting()],
 	test: {
-		environment: "jsdom",
+		environment: "happy-dom",
 		setupFiles: ["./vitest.setup.ts"],
 	},
 });
