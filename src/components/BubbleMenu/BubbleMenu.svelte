@@ -25,7 +25,7 @@
 
 		aspect-ratio: 1 / 1;
 		background-color: var(--color-primary);
-		border: none;
+		border: 1px solid var(--color-accent);
 		border-radius: var(--circle);
 		bottom: 1em;
 		position: absolute;
