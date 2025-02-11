@@ -5,13 +5,14 @@
 	import { transactionsForMonth } from "../api/transactionsForMonth";
 	import QuickInput from "./QuickInput/QuickInput.svelte";
 	import { mockCategories } from "../test/mocks";
-	import type { Transaction } from "../types";
+	import type { Transaction, User } from "../types";
 	import Loading from "./Loading.svelte";
 	import BubbleMenu from "./BubbleMenu/BubbleMenu.svelte";
 	import AddTransaction from "./BubbleMenu/BubbleMenuItem/AddTransaction/AddTransaction.svelte";
 	import ThemeToggle from "./BubbleMenu/BubbleMenuItem/ThemeToggle/ThemeToggle.svelte";
 
 	let date = $state(new Date());
+	let user = $state<User>("Brett");
 	let transactions = $state<Transaction[]>([]);
 	const transactionQuery = createQuery({
 		queryKey: ["transactions", date],
@@ -45,7 +46,11 @@
 		</section>
 
 		<BubbleMenu>
-			<AddTransaction />
+			<AddTransaction
+				bind:transactions
+				{user}
+				categories={mockCategories}
+			/>
 			<ThemeToggle />
 		</BubbleMenu>
 	{/if}

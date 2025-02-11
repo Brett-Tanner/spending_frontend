@@ -14,3 +14,6 @@ export interface Transaction {
 	user: string;
 	status: TransactionStatus;
 }
+
+export type User = "Brett" | "Vika";
+export const validUsers: User[] = ["Brett", "Vika"];

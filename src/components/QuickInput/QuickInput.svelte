@@ -1,5 +1,6 @@
 <script lang="ts">
-	import type { Transaction } from "../../types";
+	import { defaultTransactionFor } from "../../lib/transactions";
+	import type { Transaction, User } from "../../types";
 	import Cancel from "../icons/Cancel.svelte";
 	import Save from "../icons/Save.svelte";
 	import { fade } from "svelte/transition";
@@ -7,7 +8,7 @@
 	interface QuickInputProps {
 		categories: string[];
 		transactions: Transaction[];
-		user: string;
+		user: User;
 	}
 
 	type Inputs = "amount" | "category" | "description";
@@ -18,24 +19,14 @@
 		user,
 	}: QuickInputProps = $props();
 
-	const defaultTransaction: Transaction = {
-		amount: 0,
-		category: "",
-		date: new Date(),
-		description: "",
-		id: 0,
-		status: "loading",
-		user,
-	};
-
-	let newTransaction: Transaction = $state(defaultTransaction);
+	let newTransaction: Transaction = $state(defaultTransactionFor(user));
 	let editing = $state(false);
 	let activeInput = $state<Inputs>("description");
 
 	function resetForm() {
 		editing = false;
 		activeInput = "description";
-		newTransaction = defaultTransaction;
+		newTransaction = defaultTransactionFor(user);
 	}
 
 	function addTransaction(e: SubmitEvent) {
@@ -68,6 +59,7 @@
 			required
 			transition:fade
 			type="number"
+			min="0"
 		/>
 		<select
 			bind:value={newTransaction.category}

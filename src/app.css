@@ -75,7 +75,7 @@ button {
 	&:hover,
 	&:active {
 		background-color: var(--color-primary);
-		transform: scale(1.2);
+		transform: scale(1.05);
 		transition: all 0.2s ease-in-out;
 	}
 }

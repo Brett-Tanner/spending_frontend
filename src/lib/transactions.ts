@@ -1,5 +1,17 @@
 import type { Transaction } from "../types";
 
+export function defaultTransactionFor(user: string): Transaction {
+	return {
+		amount: 0,
+		category: "",
+		date: new Date(),
+		description: "",
+		id: 0,
+		status: "loading",
+		user,
+	};
+}
+
 export function sumFor(user: string, transactions: Transaction[]) {
 	return transactions
 		.filter((t) => t.user === user)
