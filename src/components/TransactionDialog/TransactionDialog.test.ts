@@ -72,7 +72,7 @@ describe("TransactionDialog", () => {
 		openDialog();
 		expect(dialog()).toBeVisible();
 
-		await user.click(screen.getByRole("button", { name: "Cancel" }));
+		await user.click(screen.getByRole("button", { name: "Cross Cancel" }));
 		expect(dialog()).not.toBeVisible();
 	});
 

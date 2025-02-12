@@ -12,6 +12,7 @@ const mockTransaction: Transaction = {
 	description: "Test Description",
 	user: "Test User",
 	amount: 10000,
+	status: "completed",
 };
 
 describe("Transaction", () => {
@@ -22,5 +23,29 @@ describe("Transaction", () => {
 		screen.getByText(shortDate(mockTransaction.date));
 		screen.getByText(mockTransaction.description);
 		screen.getByText(toYen(mockTransaction.amount));
+	});
+
+	it("shows edit button if transaction completed", () => {
+		render(TransactionRow, {
+			transaction: { ...mockTransaction, status: "completed" },
+		});
+
+		screen.getByRole("button", { name: "Edit" });
+	});
+
+	it("shows loading spinner if transaction is loading", () => {
+		render(TransactionRow, {
+			transaction: { ...mockTransaction, status: "loading" },
+		});
+
+		screen.getByRole("status", { name: "Loading" });
+	});
+
+	it("shows cross if transaction could not be persisted", () => {
+		render(TransactionRow, {
+			transaction: { ...mockTransaction, status: "error" },
+		});
+
+		screen.getByRole("status", { name: "Cross" });
 	});
 });

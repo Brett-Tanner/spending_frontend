@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { defaultTransactionFor } from "../../lib/transactions";
 	import type { Transaction, User } from "../../types";
-	import Cancel from "../icons/Cancel.svelte";
+	import Cross from "../icons/Cross.svelte";
 	import Save from "../icons/Save.svelte";
 	import { fade } from "svelte/transition";
 
@@ -79,7 +79,7 @@
 			transition:fade
 			type="button"
 		>
-			<Cancel --fill="red" />
+			<Cross role="img" --fill="red" />
 		</button>
 		<button type="submit" aria-label="Save" transition:fade>
 			<Save --fill="green" />

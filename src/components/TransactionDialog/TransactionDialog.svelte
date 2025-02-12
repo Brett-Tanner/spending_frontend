@@ -2,7 +2,7 @@
 	import { defaultTransactionFor } from "../../lib/transactions";
 	import type { Transaction, User } from "../../types";
 	import { validUsers } from "../../types";
-	import Cancel from "../icons/Cancel.svelte";
+	import Cross from "../icons/Cross.svelte";
 	import Save from "../icons/Save.svelte";
 
 	interface TransactionDialogProps {
@@ -98,7 +98,7 @@
 		</label>
 
 		<button type="button" onclick={closeDialog}>
-			<Cancel --fill="currentColor" />
+			<Cross role="img" --fill="currentColor" />
 			Cancel
 		</button>
 		<button type="submit">

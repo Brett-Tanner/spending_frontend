@@ -2,7 +2,9 @@
 	import type { Transaction } from "../../types";
 	import { toYen } from "../../lib/toYen";
 	import { shortDate } from "../../lib/dates";
-	import EditIcon from "./EditIcon.svelte";
+	import EditIcon from "./icons/EditIcon.svelte";
+	import LoadingSpinner from "./icons/LoadingSpinner.svelte";
+	import Cross from "../icons/Cross.svelte";
 
 	interface TransactionProps {
 		transaction: Transaction;
@@ -16,9 +18,15 @@
 	<p class="date">{shortDate(transaction.date)}</p>
 	<p class="description">{transaction.description}</p>
 	<p class="amount">{toYen(transaction.amount)}</p>
-	<button aria-label="Edit"
-		><EditIcon --fill="var(--color-secondary)" /></button
-	>
+	<button aria-label="Edit" disabled={transaction.status === "loading"}>
+		{#if transaction.status === "completed"}
+			<EditIcon --fill="var(--color-secondary)" />
+		{:else if transaction.status === "loading"}
+			<LoadingSpinner --fill="var(--color-secondary)" />
+		{:else if transaction.status === "error"}
+			<Cross role="status" --fill="var(--color-secondary)" />
+		{/if}
+	</button>
 </div>
 
 <style>
@@ -62,6 +70,10 @@
 			cursor: pointer;
 			place-self: center;
 			width: 75%;
+
+			&:disabled {
+				cursor: not-allowed;
+			}
 		}
 	}
 </style>
