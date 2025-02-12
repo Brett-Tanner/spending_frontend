@@ -8,7 +8,7 @@ export const mockTransactions: Transaction[] = [
 		description: "Elden Ring",
 		user: "Brett",
 		amount: 9800,
-		status: "inactive",
+		status: "completed",
 	},
 	{
 		category: "Eating out",
@@ -17,7 +17,7 @@ export const mockTransactions: Transaction[] = [
 		description: "Cicada",
 		user: "Vika",
 		amount: 23000,
-		status: "inactive",
+		status: "completed",
 	},
 	{
 		category: "Super long category oh my god why this is so big",
@@ -26,7 +26,7 @@ export const mockTransactions: Transaction[] = [
 		description: "Super long description oh my god why this is",
 		user: "Vika",
 		amount: 250000,
-		status: "inactive",
+		status: "completed",
 	},
 	{
 		category: "Entertainment",
@@ -35,7 +35,7 @@ export const mockTransactions: Transaction[] = [
 		description: "Steam Deck 2",
 		user: "Brett",
 		amount: 9800,
-		status: "inactive",
+		status: "completed",
 	},
 ];
 
