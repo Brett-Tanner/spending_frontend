@@ -6,7 +6,7 @@ export interface Transaction {
 	date: Date;
 	description: string;
 	id: number;
-	user: string;
+	user: User;
 	status: TransactionStatus;
 }
 

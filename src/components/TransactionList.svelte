@@ -41,7 +41,11 @@
 				user="Brett"
 			/>
 			{#each transactions as transaction (transaction.id)}
-				<TransactionRow {transaction} />
+				<TransactionRow
+					{transaction}
+					bind:transactions
+					categories={mockCategories}
+				/>
 			{/each}
 		</section>
 

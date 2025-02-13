@@ -6,11 +6,13 @@ import TransactionDialog from "./TransactionDialog.svelte";
 import { mockCategories } from "../../test/mocks";
 
 const testUser = "Brett";
+const testId = "test-id";
 
 async function renderComponent(transaction?: Transaction) {
 	const user = userEvent.setup();
 
 	render(TransactionDialog, {
+		id: testId,
 		categories: mockCategories,
 		user: testUser,
 		transactions: [],
@@ -21,7 +23,7 @@ async function renderComponent(transaction?: Transaction) {
 }
 
 function dialog() {
-	return screen.queryByTestId("transaction-dialog") as HTMLDialogElement;
+	return screen.queryByTestId(testId) as HTMLDialogElement;
 }
 
 function openDialog() {

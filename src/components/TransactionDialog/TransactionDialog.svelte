@@ -6,6 +6,7 @@
 	import Save from "../icons/Save.svelte";
 
 	interface TransactionDialogProps {
+		id: string;
 		categories: string[];
 		transaction?: Transaction;
 		transactions: Transaction[];
@@ -13,6 +14,7 @@
 	}
 
 	let {
+		id,
 		user,
 		transaction = defaultTransactionFor(user),
 		transactions = $bindable(),
@@ -21,9 +23,7 @@
 	let formTransaction: Transaction = $state(transaction);
 
 	function closeDialog() {
-		const dialog = document.getElementById(
-			"transaction-dialog",
-		) as HTMLDialogElement;
+		const dialog = document.getElementById(id) as HTMLDialogElement;
 		if (!dialog) return;
 
 		dialog.close();
@@ -31,13 +31,21 @@
 
 	function onsubmit(e: SubmitEvent) {
 		e.preventDefault();
-		transactions.push(formTransaction);
+		if (transaction.id === 0) {
+			transactions.push(formTransaction);
+		} else {
+			const index = transactions.findIndex(
+				(t) => t.id === transaction.id,
+			);
+			transactions[index] = formTransaction;
+		}
+
 		formTransaction = defaultTransactionFor(user);
 		closeDialog();
 	}
 </script>
 
-<dialog id="transaction-dialog" data-testid="transaction-dialog">
+<dialog {id} data-testid={id}>
 	<form data-testid="transaction-form" {onsubmit}>
 		<label for="description">
 			<p>Description</p>
@@ -81,7 +89,10 @@
 		<label for="date">
 			<p>Date</p>
 			<input
-				bind:value={formTransaction.date}
+				bind:value={
+					() => formTransaction.date.toISOString().slice(0, 10),
+					(v) => new Date(v)
+				}
 				id="date"
 				name="date"
 				type="date"

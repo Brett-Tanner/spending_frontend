@@ -1,6 +1,6 @@
-import type { Transaction } from "../types";
+import type { Transaction, User } from "../types";
 
-export function defaultTransactionFor(user: string): Transaction {
+export function defaultTransactionFor(user: User): Transaction {
 	return {
 		amount: 0,
 		category: "",
@@ -32,4 +32,8 @@ export function balanceOwed(transactions: Transaction[]) {
 	const amount = halfDifference(vikaBalance, brettBalance);
 
 	return { user, amount };
+}
+
+export function formDate(date: Date) {
+	return date.toLocaleDateString();
 }

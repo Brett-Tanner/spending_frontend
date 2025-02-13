@@ -18,7 +18,7 @@
 
 	function toggleDialog() {
 		const dialog = document.getElementById(
-			"transaction-dialog",
+			"add-transaction-dialog",
 		) as HTMLDialogElement;
 		if (!dialog) return;
 
@@ -34,4 +34,9 @@
 	<Yen --fill="var(--color-accent)" />
 </BubbleMenuItem>
 
-<TransactionDialog bind:transactions {user} {categories} />
+<TransactionDialog
+	bind:transactions
+	{user}
+	{categories}
+	id="add-transaction-dialog"
+/>

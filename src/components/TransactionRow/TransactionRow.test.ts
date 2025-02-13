@@ -1,16 +1,17 @@
 import { render, screen } from "@testing-library/svelte";
-import { describe, it } from "vitest";
+import { describe, it, expect } from "vitest";
 import TransactionRow from "./TransactionRow.svelte";
 import type { Transaction } from "../../types";
 import { toYen } from "../../lib/toYen";
 import { shortDate } from "../../lib/dates";
+import userEvent from "@testing-library/user-event";
 
 const mockTransaction: Transaction = {
 	category: "Test Category",
 	date: new Date(),
 	id: 1,
 	description: "Test Description",
-	user: "Test User",
+	user: "Brett",
 	amount: 10000,
 	status: "completed",
 };
@@ -47,5 +48,15 @@ describe("Transaction", () => {
 		});
 
 		screen.getByRole("status", { name: "Cross" });
+	});
+
+	it("opens an edit dialog when edit button clicked", async () => {
+		const user = userEvent.setup();
+		render(TransactionRow, { transaction: mockTransaction });
+
+		await user.click(screen.getByRole("button", { name: "Edit" }));
+		expect(
+			screen.getByTestId(`edit-transaction-dialog-${mockTransaction.id}`),
+		).toBeVisible();
 	});
 });

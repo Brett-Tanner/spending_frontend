@@ -11,7 +11,7 @@ export const mockTransactions: Transaction[] = [
 		status: "completed",
 	},
 	{
-		category: "Eating out",
+		category: "Eating Out",
 		date: new Date(new Date().setDate(new Date().getDate() - 1)),
 		id: 2,
 		description: "Cicada",
@@ -20,7 +20,7 @@ export const mockTransactions: Transaction[] = [
 		status: "completed",
 	},
 	{
-		category: "Super long category oh my god why this is so big",
+		category: "Food",
 		date: new Date(),
 		id: 3,
 		description: "Super long description oh my god why this is",
@@ -45,4 +45,5 @@ export const mockCategories = [
 	"Travel",
 	"Rent",
 	"Household Costs",
+	"Entertainment",
 ];
