@@ -36,7 +36,7 @@
 	}
 </script>
 
-<form onsubmit={addTransaction}>
+<form onsubmit={addTransaction} data-testid="quick-input-form">
 	<input
 		bind:value={newTransaction.description}
 		class:active={activeInput === "description"}

@@ -46,7 +46,7 @@
 </script>
 
 <dialog {id} data-testid={id}>
-	<form data-testid="transaction-form" {onsubmit}>
+	<form data-testid={`transaction-${transaction.id}-form`} {onsubmit}>
 		<label for="description">
 			<p>Description</p>
 			<input

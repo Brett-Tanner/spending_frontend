@@ -22,13 +22,16 @@ export function halfDifference(a: number, b: number) {
 	return Math.abs(Math.round((a - b) / 2));
 }
 
-export function balanceOwed(transactions: Transaction[]) {
+export function balanceOwed(transactions: Transaction[]): {
+	user: User;
+	amount: number;
+} {
 	const vikaBalance = sumFor("Vika", transactions);
 	const brettBalance = sumFor("Brett", transactions);
 
 	if (vikaBalance === brettBalance) return { user: "Steven", amount: 0 };
 
-	const user = vikaBalance > brettBalance ? "Brett" : "Vika";
+	const user: User = vikaBalance > brettBalance ? "Brett" : "Vika";
 	const amount = halfDifference(vikaBalance, brettBalance);
 
 	return { user, amount };

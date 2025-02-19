@@ -12,7 +12,7 @@ describe("balanceOwed", () => {
 			description: "Test",
 			user: "Vika",
 			amount: 9999999,
-			status: "inactive",
+			status: "completed",
 		};
 		const vikaSpendsMore = [...mockTransactions, vikaSpendsBig];
 
@@ -34,7 +34,7 @@ describe("balanceOwed", () => {
 			description: "Test",
 			user: "Brett",
 			amount: 9999999,
-			status: "inactive",
+			status: "completed",
 		};
 		const brettSpendsMore = [...mockTransactions, brettSpendsBig];
 
@@ -58,7 +58,7 @@ describe("balanceOwed", () => {
 			description: "Test",
 			user: cheapUser,
 			amount: balancingAmount * 2,
-			status: "inactive",
+			status: "completed",
 		};
 		const balancedTransactions = [...mockTransactions, balancingTransaction];
 

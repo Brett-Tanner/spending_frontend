@@ -13,7 +13,7 @@
 	{@render children()}
 {/if}
 
-<button type="button" onclick={() => (open = !open)}>
+<button type="button" onclick={() => (open = !open)} data-testid="bubble-menu">
 	<Womby --fill="var(--color-accent)" />
 </button>
 
