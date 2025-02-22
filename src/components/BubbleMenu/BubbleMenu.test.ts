@@ -17,10 +17,11 @@ describe("BubbleMenu", () => {
 
 	it("reveals the menu on click", async () => {
 		const user = userEvent.setup();
-		render(BubbleMenu, { children: ThemeToggle });
+		render(BubbleMenu);
 
 		await user.click(screen.getByRole("button"));
 
 		expect(screen.getByRole("button", { name: "Light Mode" }));
+		expect(screen.getByRole("button", { name: "Add Transaction" }));
 	});
 });

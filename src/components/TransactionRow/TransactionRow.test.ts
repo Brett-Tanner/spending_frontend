@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/svelte";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import TransactionRow from "./TransactionRow.svelte";
 import type { Transaction } from "../../types";
 import { toYen } from "../../lib/toYen";
@@ -15,10 +15,15 @@ const mockTransaction: Transaction = {
 	amount: 10000,
 	status: "completed",
 };
+const onEdit = vi.fn();
+
+function renderComponent(transaction = mockTransaction) {
+	render(TransactionRow, { transaction, onEdit });
+}
 
 describe("Transaction", () => {
 	it("shows first letter of user, date, description & amount by default", () => {
-		render(TransactionRow, { transaction: mockTransaction });
+		renderComponent();
 
 		screen.getByText(mockTransaction.user[0]);
 		screen.getByText(shortDate(mockTransaction.date));
@@ -27,36 +32,28 @@ describe("Transaction", () => {
 	});
 
 	it("shows edit button if transaction completed", () => {
-		render(TransactionRow, {
-			transaction: { ...mockTransaction, status: "completed" },
-		});
+		renderComponent({ ...mockTransaction, status: "completed" });
 
 		screen.getByRole("button", { name: "Edit" });
 	});
 
 	it("shows loading spinner if transaction is loading", () => {
-		render(TransactionRow, {
-			transaction: { ...mockTransaction, status: "loading" },
-		});
+		renderComponent({ ...mockTransaction, status: "loading" });
 
 		screen.getByRole("status", { name: "Loading" });
 	});
 
 	it("shows cross if transaction could not be persisted", () => {
-		render(TransactionRow, {
-			transaction: { ...mockTransaction, status: "error" },
-		});
+		renderComponent({ ...mockTransaction, status: "error" });
 
 		screen.getByRole("status", { name: "Cross" });
 	});
 
-	it("opens an edit dialog when edit button clicked", async () => {
+	it("calls `onEdit` when edit button is clicked", async () => {
 		const user = userEvent.setup();
-		render(TransactionRow, { transaction: mockTransaction });
+		renderComponent();
 
 		await user.click(screen.getByRole("button", { name: "Edit" }));
-		expect(
-			screen.getByTestId(`edit-transaction-dialog-${mockTransaction.id}`),
-		).toBeVisible();
+		expect(onEdit).toHaveBeenCalledWith(mockTransaction);
 	});
 });

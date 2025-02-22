@@ -1,6 +1,6 @@
 import type { Transaction, User } from "../types";
 
-export function defaultTransactionFor(user: User): Transaction {
+export function defaultTransactionFor(user: () => User): Transaction {
 	return {
 		amount: 0,
 		category: "",
@@ -8,7 +8,7 @@ export function defaultTransactionFor(user: User): Transaction {
 		description: "",
 		id: 0,
 		status: "loading",
-		user,
+		user: user(),
 	};
 }
 

@@ -8,12 +8,14 @@
 	import type { Transaction, User } from "../types";
 	import Loading from "./Loading.svelte";
 	import BubbleMenu from "./BubbleMenu/BubbleMenu.svelte";
-	import AddTransaction from "./BubbleMenu/BubbleMenuItem/AddTransaction/AddTransaction.svelte";
-	import ThemeToggle from "./BubbleMenu/BubbleMenuItem/ThemeToggle/ThemeToggle.svelte";
+	import TransactionDialog from "./TransactionDialog/TransactionDialog.svelte";
+	import { defaultTransactionFor } from "../lib/transactions";
 
 	let date = $state(new Date());
 	let user = $state<User>("Brett");
 	let transactions = $state<Transaction[]>([]);
+	const defaultTransaction = defaultTransactionFor(() => user);
+	let activeTransaction = $state(defaultTransaction);
 	const transactionQuery = createQuery({
 		queryKey: ["transactions", date],
 		queryFn: () => transactionsForMonth(date),
@@ -21,6 +23,35 @@
 	$effect(() => {
 		if ($transactionQuery.data) transactions = $transactionQuery.data;
 	});
+
+	function openDialog() {
+		const dialog = document.getElementById(
+			"transaction-dialog",
+		) as HTMLDialogElement;
+		if (!dialog) return;
+
+		dialog.showModal();
+	}
+
+	function onEdit(transaction: Transaction) {
+		activeTransaction = transaction;
+		openDialog();
+	}
+
+	function updateTransactions(transaction: Transaction) {
+		if (transaction.id === 0) {
+			transactions.push(transaction);
+		} else {
+			const index = transactions.findIndex(
+				(t) => t.id === transaction.id,
+			);
+			transactions[index] = transaction;
+		}
+	}
+
+	function onDialogClose() {
+		activeTransaction = defaultTransaction;
+	}
 </script>
 
 <main>
@@ -37,26 +68,22 @@
 		<section class="transactions">
 			<QuickInput
 				categories={mockCategories}
-				bind:transactions
+				{updateTransactions}
 				user="Brett"
 			/>
 			{#each transactions as transaction (transaction.id)}
-				<TransactionRow
-					{transaction}
-					bind:transactions
-					categories={mockCategories}
-				/>
+				<TransactionRow {onEdit} {transaction} />
 			{/each}
 		</section>
 
-		<BubbleMenu>
-			<AddTransaction
-				bind:transactions
-				{user}
-				categories={mockCategories}
-			/>
-			<ThemeToggle />
-		</BubbleMenu>
+		<BubbleMenu />
+
+		<TransactionDialog
+			categories={mockCategories}
+			onClose={onDialogClose}
+			bind:transaction={activeTransaction}
+			{updateTransactions}
+		/>
 	{/if}
 </main>
 

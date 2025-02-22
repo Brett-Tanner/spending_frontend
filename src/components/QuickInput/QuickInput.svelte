@@ -7,31 +7,28 @@
 
 	interface QuickInputProps {
 		categories: string[];
-		transactions: Transaction[];
+		updateTransactions: (transaction: Transaction) => void;
 		user: User;
 	}
 
 	type Inputs = "amount" | "category" | "description";
 
-	let {
-		categories,
-		transactions = $bindable(),
-		user,
-	}: QuickInputProps = $props();
+	let { categories, updateTransactions, user }: QuickInputProps = $props();
 
-	let newTransaction: Transaction = $state(defaultTransactionFor(user));
+	const defaultTransaction = defaultTransactionFor(() => user);
+	let newTransaction: Transaction = $state(defaultTransaction);
 	let editing = $state(false);
 	let activeInput = $state<Inputs>("description");
 
 	function resetForm() {
 		editing = false;
 		activeInput = "description";
-		newTransaction = defaultTransactionFor(user);
+		newTransaction = defaultTransaction;
 	}
 
 	function addTransaction(e: SubmitEvent) {
 		e.preventDefault();
-		transactions.push(newTransaction);
+		updateTransactions(newTransaction);
 		resetForm();
 	}
 </script>

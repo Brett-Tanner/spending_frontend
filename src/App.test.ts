@@ -35,7 +35,7 @@ async function completeQuickForm(user: UserEvent) {
 
 async function completeDialogForm(user: UserEvent) {
 	const form = (await screen.findByTestId(
-		"transaction-0-form",
+		"transaction-form",
 	)) as HTMLFormElement;
 
 	const description = within(form).getByLabelText("Description");
@@ -47,7 +47,10 @@ async function completeDialogForm(user: UserEvent) {
 	const category = within(form).getByLabelText("Category");
 	await user.selectOptions(category, testTransaction.category);
 
-	const submit = within(form).getByRole("button", { name: "Submit" });
+	const submit = within(form).getByRole("button", {
+		name: "Submit",
+		hidden: true,
+	});
 	await user.click(submit);
 }
 

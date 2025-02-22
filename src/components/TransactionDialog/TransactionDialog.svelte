@@ -1,56 +1,46 @@
 <script lang="ts">
-	import { defaultTransactionFor } from "../../lib/transactions";
-	import type { Transaction, User } from "../../types";
+	import type { Transaction } from "../../types";
 	import { validUsers } from "../../types";
 	import Cross from "../icons/Cross.svelte";
 	import Save from "../icons/Save.svelte";
 
 	interface TransactionDialogProps {
-		id: string;
 		categories: string[];
-		transaction?: Transaction;
-		transactions: Transaction[];
-		user: User;
+		transaction: Transaction;
+		updateTransactions: (transaction: Transaction) => void;
+		onClose: () => void;
 	}
 
+	const id = "transaction-dialog";
+
 	let {
-		id,
-		user,
-		transaction = defaultTransactionFor(user),
-		transactions = $bindable(),
+		onClose,
+		transaction = $bindable(),
+		updateTransactions,
 		categories,
 	}: TransactionDialogProps = $props();
-	let formTransaction: Transaction = $state(transaction);
 
 	function closeDialog() {
 		const dialog = document.getElementById(id) as HTMLDialogElement;
 		if (!dialog) return;
 
+		onClose();
 		dialog.close();
 	}
 
 	function onsubmit(e: SubmitEvent) {
 		e.preventDefault();
-		if (transaction.id === 0) {
-			transactions.push(formTransaction);
-		} else {
-			const index = transactions.findIndex(
-				(t) => t.id === transaction.id,
-			);
-			transactions[index] = formTransaction;
-		}
-
-		formTransaction = defaultTransactionFor(user);
+		updateTransactions(transaction);
 		closeDialog();
 	}
 </script>
 
-<dialog {id} data-testid={id}>
-	<form data-testid={`transaction-${transaction.id}-form`} {onsubmit}>
+<dialog {id} data-testid={id} onclose={closeDialog}>
+	<form data-testid="transaction-form" {onsubmit}>
 		<label for="description">
 			<p>Description</p>
 			<input
-				bind:value={formTransaction.description}
+				bind:value={transaction.description}
 				id="description"
 				name="description"
 				required
@@ -61,7 +51,7 @@
 		<label for="amount">
 			<p>Amount</p>
 			<input
-				bind:value={formTransaction.amount}
+				bind:value={transaction.amount}
 				id="amount"
 				inputmode="numeric"
 				name="amount"
@@ -74,7 +64,7 @@
 		<label for="category">
 			<p>Category</p>
 			<select
-				bind:value={formTransaction.category}
+				bind:value={transaction.category}
 				id="category"
 				name="category"
 				required
@@ -90,7 +80,7 @@
 			<p>Date</p>
 			<input
 				bind:value={
-					() => formTransaction.date.toISOString().slice(0, 10),
+					() => transaction.date.toISOString().slice(0, 10),
 					(v) => new Date(v)
 				}
 				id="date"
@@ -101,7 +91,7 @@
 
 		<label for="user">
 			<p>User</p>
-			<select bind:value={formTransaction.user} id="user" name="user">
+			<select bind:value={transaction.user} id="user" name="user">
 				{#each validUsers as user}
 					<option value={user}>{user}</option>
 				{/each}

@@ -1,22 +1,32 @@
 import { render, screen } from "@testing-library/svelte";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import type { Transaction } from "../../types";
 import TransactionDialog from "./TransactionDialog.svelte";
 import { mockCategories } from "../../test/mocks";
 
 const testUser = "Brett";
-const testId = "test-id";
+const testId = "transaction-dialog";
+const testTransaction: Transaction = {
+	id: 0,
+	amount: 100,
+	category: mockCategories[0],
+	date: new Date(),
+	description: "Test Description",
+	user: testUser,
+	status: "loading",
+};
+const updateTransactions = vi.fn();
+const onClose = vi.fn();
 
-async function renderComponent(transaction?: Transaction) {
+async function renderComponent(transaction = testTransaction) {
 	const user = userEvent.setup();
 
 	render(TransactionDialog, {
-		id: testId,
 		categories: mockCategories,
-		user: testUser,
-		transactions: [],
+		onClose,
 		transaction,
+		updateTransactions,
 	});
 
 	return { user };
@@ -90,17 +100,16 @@ describe("TransactionDialog", () => {
 		expect(dialog()).not.toBeVisible();
 	});
 
-	it("should autofill attributes of transaction if passed one", async () => {
-		const testTransaction: Transaction = {
-			id: 0,
-			amount: 100,
-			category: mockCategories[0],
-			date: new Date(),
-			description: "Test Description",
-			user: testUser,
-			status: "loading",
-		};
+	it("should call `updateTransactions` when form submitted", async () => {
+		const { user } = await renderComponent(testTransaction);
+		openDialog();
 
+		await user.click(screen.getByRole("button", { name: "Submit" }));
+
+		expect(updateTransactions).toHaveBeenCalledWith(testTransaction);
+	});
+
+	it("should autofill attributes of transaction if passed one", async () => {
 		renderComponent(testTransaction);
 		openDialog();
 
