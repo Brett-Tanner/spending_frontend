@@ -1,4 +1,8 @@
 export type TransactionStatus = "loading" | "error" | "completed";
+export type Theme = "light" | "dark";
+
+export type User = "Brett" | "Vika" | "Steven";
+export const validUsers: User[] = ["Brett", "Vika"];
 
 export interface Transaction {
 	amount: number;
@@ -9,6 +13,3 @@ export interface Transaction {
 	user: User;
 	status: TransactionStatus;
 }
-
-export type User = "Brett" | "Vika" | "Steven";
-export const validUsers: User[] = ["Brett", "Vika"];

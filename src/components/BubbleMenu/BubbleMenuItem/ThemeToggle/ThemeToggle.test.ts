@@ -37,11 +37,4 @@ describe("ThemeToggle", () => {
 		const storedTheme = localStorage.getItem("theme");
 		expect(storedTheme).toBe("light");
 	});
-
-	it("should load theme from localStorage if available", () => {
-		localStorage.setItem("theme", "dark");
-		render(ThemeToggle);
-
-		expectTheme("dark");
-	});
 });

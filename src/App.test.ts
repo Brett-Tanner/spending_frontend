@@ -3,7 +3,7 @@ import { beforeAll, describe, expect, it, vi } from "vitest";
 import App from "./App.svelte";
 import { mockTransactions } from "./test/mocks";
 import userEvent, { type UserEvent } from "@testing-library/user-event";
-import type { Transaction } from "./types";
+import type { Theme, Transaction } from "./types";
 
 const testTransaction: Transaction = {
 	description: "Test",
@@ -87,5 +87,13 @@ describe("Integration Tests", () => {
 			await completeDialogForm(user);
 			expect(screen.getByText(testTransaction.description)).toBeInTheDocument();
 		});
+	});
+
+	it("should load theme from localStorage if available", () => {
+		const storedTheme: Theme = "light";
+		localStorage.setItem("theme", storedTheme);
+		render(App);
+
+		expect(document.documentElement).toHaveAttribute("data-theme", storedTheme);
 	});
 });

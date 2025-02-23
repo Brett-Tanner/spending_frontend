@@ -1,29 +1,16 @@
 <script lang="ts">
+	import { getTheme, setTheme } from "../../../../lib/theme";
+	import type { Theme } from "../../../../types";
 	import BubbleMenuItem from "../BubbleMenuItem.svelte";
 	import Dark from "./icons/DarkModeIcon.svelte";
 	import Light from "./icons/LightModeIcon.svelte";
 
-	type Theme = "light" | "dark";
-	let activeTheme: Theme = $state<Theme>("dark");
-	$effect(() => {
-		const storedTheme = localStorage.getItem("theme") as Theme;
-		if (!storedTheme) return;
-
-		setTheme(storedTheme);
-	});
-
-	function setTheme(newTheme: Theme) {
-		const htmlElement = document.documentElement;
-		if (!htmlElement) return;
-
-		htmlElement.setAttribute("data-theme", newTheme);
-		localStorage.setItem("theme", newTheme);
-		activeTheme = newTheme;
-	}
+	let activeTheme: Theme = $state<Theme>(getTheme() || "dark");
 
 	function toggleTheme() {
 		const newTheme = activeTheme === "dark" ? "light" : "dark";
 		setTheme(newTheme);
+		activeTheme = newTheme;
 	}
 </script>
 
