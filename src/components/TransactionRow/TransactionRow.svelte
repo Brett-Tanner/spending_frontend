@@ -79,6 +79,10 @@
 			&:disabled {
 				cursor: not-allowed;
 			}
+
+			@media (min-width: 768px) {
+				width: 50%;
+			}
 		}
 	}
 </style>

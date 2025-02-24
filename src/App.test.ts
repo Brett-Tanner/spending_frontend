@@ -15,6 +15,16 @@ const testTransaction: Transaction = {
 	status: "completed",
 };
 
+function mockApis() {
+	const mockFetch = vi.spyOn(globalThis, "fetch");
+	mockFetch.mockResolvedValueOnce({
+		json: () => mockTransactions,
+		status: 200,
+	} as never);
+
+	return { mockFetch };
+}
+
 async function completeQuickForm(user: UserEvent) {
 	const form = (await screen.findByTestId(
 		"quick-input-form",
@@ -56,6 +66,7 @@ async function completeDialogForm(user: UserEvent) {
 
 describe("Integration Tests", () => {
 	it("displays all retrieved transactions", async () => {
+		mockApis();
 		render(App);
 
 		for (const t of mockTransactions) {
@@ -73,6 +84,7 @@ describe("Integration Tests", () => {
 
 		it("can create a transaction from QuickInput", async () => {
 			const user = userEvent.setup();
+			mockApis();
 			render(App);
 
 			await completeQuickForm(user);
@@ -81,6 +93,7 @@ describe("Integration Tests", () => {
 
 		it("can create a transaction from BubbleMenu", async () => {
 			const user = userEvent.setup();
+			mockApis();
 			render(App);
 
 			await user.click(await screen.findByTestId("bubble-menu"));
@@ -92,6 +105,8 @@ describe("Integration Tests", () => {
 	it("should load theme from localStorage if available", () => {
 		const storedTheme: Theme = "light";
 		localStorage.setItem("theme", storedTheme);
+		mockApis();
+
 		render(App);
 
 		expect(document.documentElement).toHaveAttribute("data-theme", storedTheme);

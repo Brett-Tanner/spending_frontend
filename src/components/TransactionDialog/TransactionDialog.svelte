@@ -127,7 +127,7 @@
 		}
 
 		&::backdrop {
-			backdrop-filter: blur(3px);
+			backdrop-filter: blur(2px);
 			background-color: color-mix(
 				in srgb,
 				var(--color-accent),
